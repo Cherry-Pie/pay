@@ -6,6 +6,9 @@ return array(
 
     // link for notifications is setted by iPay support team
     'ipay' => array(
+        // берется у саппорта (для каждого мерчанта свой)
+        'id_terminal'  => 2898, // false
+        
         'id_merchant'  => 417,
         'id_service'   => 0,
         'merchant_key' => '78201f17d31766ea8546f16b8f4bbec4af240e5f',
@@ -21,7 +24,7 @@ return array(
     ),
 
     'liqpay' => array(
-        'private_key' => '7WQheQx3FonCvl5sgTIVXJMY06I0VRK0xqnx8xpO',
+        'private_key' => '7WQheQx3FonCvL5sgTLVXJMY06L0VRKOxqnx8xpo',//'7WQheQx3FonCvl5sgTIVXJMY06I0VRK0xqnx8xpO',
         'public_key'  => 'i51083393969',
 
         // 414963 – UA | 469584 – RU

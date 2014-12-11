@@ -54,6 +54,12 @@ class Ipay
 
         return $this->language;
     } // end getLanguage
+    
+    public function getTerminalID()
+    {
+        $idTerminal = Config::get('pay::ipay.id_terminal');
+        return $idTerminal ? : false;
+    } // end getTerminalID
 
     public function getLifetime()
     {
@@ -209,6 +215,21 @@ class Ipay
 
         return $this;
     } // end create
+    
+    public function check()
+    {
+        $response = \Input::get('xml');
+        if (!$response) {
+            throw new \RuntimeException('iPay: there is no xml passed - '. json_encode(\Input::all()));
+        }
+        
+        $this->doCheckResponseSign($response);
+
+        $this->rawResponse = $response;
+        $this->response = $this->doConvertXmlToArray($response);
+
+        return $this;
+    } // end check
 
     public function complete($idPayment)
     {
@@ -223,6 +244,44 @@ class Ipay
 
         return $this;
     } // end complete
+    
+    public function isOk()
+    {
+        return isset($this->response['status']) && $this->response['status'] == 5;
+    } // end isOk
+    
+    public function getStatusMessage()
+    {
+        switch ($this->response['status']) {
+            // Регистрация платежа:
+            case '1':
+                return 'Платеж успешно зарегистрирован';
+            case '2':
+                return 'Ошибка при регистрации платежа';
+            // Авторизация средств на карте:
+            case '3':
+                return 'Авторизация средств на карте успешна';
+            case '4':
+                return 'Ошибка при авторизации средств на карте';
+            // Списаниесредств скарты:
+            case '5':
+                return 'Списание средств с карты успешно';
+            case '6':
+                return 'Ошибка при списании средств с карты';
+            // Запрос на отложенное списание:
+            case '7':
+                return 'Запрос на списание обработан успешно';
+            case '8':
+                return 'Ошибка при выполнении запроса на списание';
+            // Запрос на отложенную отмену:
+            case '9':
+                return 'Запрос на отмену авторизации выполнен успешно';
+            case '10':
+                return 'Ошибка при выполнении запроса на отмену';
+            default:
+                throw new \RuntimeException('iPay: not implemented status code - '. $this->response['status']);
+        }
+    } // end getStatusMessage
 
     public function reverse($idPayment)
     {
@@ -361,6 +420,9 @@ class Ipay
         $tr = array();
         $tr['mch_id'] = $this->getMerchantID();
         $tr['srv_id'] = $this->getServiceID();
+        if ($this->getTerminalID()) {
+            $tr['terminal'] = $this->getTerminalID();
+        }
         // тип транзакции. [ 10 (авторизация) или 11(списание)]
         $tr['type']   = 11;
         $tr['amount'] = $this->getTransactionAttribute($transaction, 'amount') * 100;
@@ -379,10 +441,10 @@ class Ipay
 
         return $tr;
     } // end onTransaction
-
+    
     public function getPaymentID()
     {
-        return $this->response['pid'];
+        return isset($this->response['pid']) ? $this->response['pid'] : $this->response['@attributes']['id'];
     } // end getPaymentID
 
     public function getRedirectUrl()
