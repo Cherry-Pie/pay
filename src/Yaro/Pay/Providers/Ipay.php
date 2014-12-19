@@ -426,8 +426,10 @@ class Ipay
         // тип транзакции. [ 10 (авторизация) или 11(списание)]
         $tr['type']   = 11;
         $tr['amount'] = $this->getTransactionAttribute($transaction, 'amount') * 100;
-        $tr['desc']   = $this->getTransactionAttribute($transaction, 'desc');
         $tr['currency'] = $this->getCurrency();
+        
+        $desc = $this->getTransactionAttribute($transaction, 'desc');
+        $tr['desc'] = mb_strcut($desc, 0, 248);
 
         if ($this->hasTransactionAttribute($transaction, 'fee')) {
             $tr['fee'] = $transaction['fee'];
