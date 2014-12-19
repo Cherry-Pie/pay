@@ -13,8 +13,8 @@ return array(
         'id_service'   => 0,
         'merchant_key' => '78201f17d31766ea8546f16b8f4bbec4af240e5f',
         'system_key'   => '301e1a52f718c302656ebf761ba5905db1e56f6f',
-        'url_success'  => '/good',
-        'url_fail'     => '/fail',
+        'url_success'  => '/checkout?is_good=1',
+        'url_fail'     => '/checkout?is_good=0',
         // ru | ua | en
         'language' => 'ru',
         // in hours
