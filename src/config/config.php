@@ -41,7 +41,7 @@ return array(
         // Этот URL является дублирующим каналом доставки
         // ответа от банка.
         // server call via post
-        'server_url' => '/liqpay/server/response',
+        'server_url' => '/liqpay/server/response', // НЕ ИСПОЛЬЗУЕТСЯ?
         // 980 – Украинская гривна
         // 840 – Доллар США
         // 643 – Российский рубль
