@@ -27,7 +27,12 @@ class Liqpay
     private $responseUrl;
     private $responseServerUrl;
 
-
+    public function hexbin($temp) {
+        $data="";
+        $len = strlen($temp);
+        for ($i=0;$i<$len;$i+=2) $data.=chr(hexdec(substr($temp,$i,2)));
+        return $data;
+    }
     public function __construct()
     {
         $this->idAcquirer = Config::get('pay::liqpay.id_acquirer');
@@ -174,7 +179,7 @@ class Liqpay
         //$signString .= $this->getPhone();
         $signString .= $this->getOrderDescription();
 
-        return base64_encode(hex2bin(sha1($signString)));
+        return base64_encode($this->hexbin(sha1($signString)));
     } // end getSign
 
     private function doCheckCreateParams($params)
