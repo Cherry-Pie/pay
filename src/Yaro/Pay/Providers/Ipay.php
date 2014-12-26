@@ -347,7 +347,7 @@ class Ipay
 
     private function getServiceUrl()
     {
-        if (Config::get('pay::is_sandbox')) {
+        if (Config::get('pay::ipay.is_sandbox')) {
             return $this->sandboxServerUrl;
         }
 

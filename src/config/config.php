@@ -2,30 +2,29 @@
 
 return array(
 
-    'is_sandbox' => true,
-
     // link for notifications is setted by iPay support team
     'ipay' => array(
+        'is_sandbox' => true, // sandbox mode
         // берется у саппорта (для каждого мерчанта свой)
-        'id_terminal'  => 2898, // false
+        'id_terminal'  => false, // false
         
-        'id_merchant'  => 417,
+        'id_merchant'  => 0,
         'id_service'   => 0,
-        'merchant_key' => '78201f17d31766ea8546f16b8f4bbec4af240e5f',
-        'system_key'   => '301e1a52f718c302656ebf761ba5905db1e56f6f',
-        'url_success'  => '/checkout?is_good=1',
-        'url_fail'     => '/checkout?is_good=0',
+        'merchant_key' => '',
+        'system_key'   => '',
+        'url_success'  => '/',
+        'url_fail'     => '/',
         // ru | ua | en
         'language' => 'ru',
         // in hours
-        'lifetime' => 1,
+        'lifetime' => 24,
         //
         'currency' => 'UAH',
     ),
 
     'liqpay' => array(
-        'private_key' => '7WQheQx3FonCvL5sgTLVXJMY06L0VRKOxqnx8xpo',//'7WQheQx3FonCvl5sgTIVXJMY06I0VRK0xqnx8xpO',
-        'public_key'  => 'i51083393969',
+        'private_key' => '',//'7WQheQx3FonCvl5sgTIVXJMY06I0VRK0xqnx8xpO',
+        'public_key'  => '',
 
         // 414963 – UA | 469584 – RU
         'id_acquirer' => '414963',
@@ -34,14 +33,14 @@ return array(
         // параметра переадресация происходит на страницу
         // результата оплаты классического чекаута
         // client redirect via post
-        'result_url' => '/liqpay/response',
+        'result_url' => '/',
         // URL, на который система должна отправлять ответ с
         // результатом платежа напрямую, параллельно
         // отправке через браузер клиента.
         // Этот URL является дублирующим каналом доставки
         // ответа от банка.
         // server call via post
-        'server_url' => '/liqpay/server/response', // НЕ ИСПОЛЬЗУЕТСЯ?
+        'server_url' => '/', // НЕ ИСПОЛЬЗУЕТСЯ?
         // 980 – Украинская гривна
         // 840 – Доллар США
         // 643 – Российский рубль
