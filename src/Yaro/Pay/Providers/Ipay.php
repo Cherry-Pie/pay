@@ -58,7 +58,8 @@ class Ipay
     public function getTerminalID()
     {
         $idTerminal = Config::get('pay::ipay.id_terminal');
-        return $idTerminal ? : false;
+        
+        return Config::get('pay::ipay.is_sandbox') ? false : $idTerminal;
     } // end getTerminalID
 
     public function getLifetime()
